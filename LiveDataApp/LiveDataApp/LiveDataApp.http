@@ -1,0 +1,6 @@
+@LiveDataApp_HostAddress = http://localhost:5120
+
+GET {{LiveDataApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
