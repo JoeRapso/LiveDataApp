@@ -1,4 +1,4 @@
-using LiveDataApp.Models;
+using System.Net.WebSockets;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,30 +9,27 @@ app.UseWebSockets();
 
 app.Map("/livedata", async context =>
 {
+    // Check if the request is a WebSocket request
     if (context.WebSockets.IsWebSocketRequest)
     {
+        // Accept the WebSocket request
         using var webSocket = await context.WebSockets.AcceptWebSocketAsync();
-        using var httpClient = new HttpClient();
-
         var cancellationToken = CancellationToken.None;
 
-        while (webSocket.State == System.Net.WebSockets.WebSocketState.Open)
-        {
-            try
-            {
-                var response = await httpClient.GetFromJsonAsync<SessionSummary[]>("http://dev-sample-api.tsl-timing.com/sessions");
-                var json = System.Text.Json.JsonSerializer.Serialize(response);
-                var buffer = System.Text.Encoding.UTF8.GetBytes(json);
-                await webSocket.SendAsync(buffer, System.Net.WebSockets.WebSocketMessageType.Text, true, cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                var errorMsg = System.Text.Encoding.UTF8.GetBytes($"Error: {ex.Message}");
-                await webSocket.SendAsync(errorMsg, System.Net.WebSockets.WebSocketMessageType.Text, true, cancellationToken);
-            }
+        // Connect to Binance WebSocket
+        using var binanceSocket = new ClientWebSocket();
+        var binanceUri = new Uri("wss://stream.binance.com:9443/ws/btcusdt@trade");
+        await binanceSocket.ConnectAsync(binanceUri, cancellationToken);
 
-            // Wait for 5 seconds before sending the next update
-            await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+        var buffer = new byte[4096];
+
+        while (webSocket.State == WebSocketState.Open && binanceSocket.State == WebSocketState.Open)
+        {
+            // Receive message from Binance WebSocket
+            var result = await binanceSocket.ReceiveAsync(new ArraySegment<byte>(buffer), cancellationToken);
+
+            // Forward Binance message to frontend client
+            await webSocket.SendAsync(new ArraySegment<byte>(buffer, 0, result.Count), WebSocketMessageType.Text, result.EndOfMessage, cancellationToken);
         }
     }
     else
@@ -42,6 +39,3 @@ app.Map("/livedata", async context =>
 });
 
 app.Run();
-
-
-
