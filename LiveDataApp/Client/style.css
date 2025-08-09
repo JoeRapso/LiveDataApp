@@ -1,0 +1,45 @@
+﻿:root {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+body {
+    margin: 24px;
+    background: #fafafa;
+    color: #222;
+}
+
+main {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+h1 {
+    margin-bottom: 12px;
+}
+
+#status {
+    padding: 8px 12px;
+    background: #eee;
+    border-radius: 8px;
+    display: inline-block;
+    margin-bottom: 12px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+thead tr {
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+}
