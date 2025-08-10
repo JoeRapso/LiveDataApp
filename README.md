@@ -32,6 +32,6 @@ Open `Client/index.html` in a browser, enter a symbol (e.g., `btcusdt`).
 `LiveDataApp/LiveDataApp/appsettings.json`:
 ```json
 {
-  "SupportedSymbols": ["btcusdt", "ethusdt", "bnbusdt"]
+  "SupportedSymbols": ["btcusdt", "ethusdt", "bnbusdt", ""adausdt""]
 }
 ```
