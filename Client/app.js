@@ -27,7 +27,7 @@ function connect(symbol) {
         socket.close();
     }
 
-    statusEl.textContent = 'Connecting…';
+    statusEl.textContent = 'Connecting';
     outputEl.innerHTML = '';
 
     // Default to btcusdt if no symbol provided
@@ -38,6 +38,7 @@ function connect(symbol) {
     socket.onopen = function () {
         statusEl.textContent = 'Connected';
     };
+
 
     socket.onmessage = function (event) {
         let payload;
