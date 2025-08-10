@@ -25,8 +25,18 @@ h1 {
     margin-bottom: 12px;
 }
 
+#input {
+    display: block;
+    margin: 12px 0;
+    padding: 8px 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 20%;
+    box-sizing: border-box;
+}
 table {
-    width: 100%;
+    width: 40%;
     border-collapse: collapse;
     margin-top: 12px;
 }

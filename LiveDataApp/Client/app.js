@@ -40,9 +40,14 @@ function connect(symbol) {
     };
 
     socket.onmessage = function (event) {
-        const payload = JSON.parse(event.data);
+        let payload;
+        try {
+            payload = JSON.parse(event.data);
+        } catch (e) {
+            outputEl.innerHTML = `<pre style="color: red; width: 40%;">${event.data}</pre>`;
+            return;
+        }
         renderTable(payload, symbol);
-        console.log(payload);
     };
 
     socket.onclose = function () {
