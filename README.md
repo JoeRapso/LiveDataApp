@@ -12,6 +12,9 @@ Browser  <--WS-->  ASP.NET Core Server  <--WS-->  Binance Trade Stream
 
 ---
 
+## Requirements
+.NET 8.0 SDK or later
+
 ## Run
 
 **Server**
